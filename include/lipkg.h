@@ -92,6 +92,7 @@ public:
   const FrameData & GetFrameData(void) {mIsFrameReady = false; return mFrameData;}
   sensor_msgs::msg::LaserScan GetLaserScan() {return output;}
   void setStamp(rclcpp::Time timeStamp) {output.header.stamp = timeStamp;}
+  void setFrameId(std::string frameId) {output.header.frame_id = frameId;}
 
 private:
   uint16_t mTimestamp;

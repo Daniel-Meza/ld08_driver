@@ -34,6 +34,10 @@ int main(int argc, char ** argv)
   int32_t ver = 8;
   pkg = new LD08_LiPkg;
 
+  // Declare parameter for frame_id
+  node->declare_parameter("frame_id", "base_scan");
+  std::string frame_id = node->get_parameter("frame_id").get_parameter_value().get<std::string>();
+
   CmdInterfaceLinux cmd_port(ver);
   std::vector<std::pair<std::string, std::string>> device_list;
   std::string port_name;
@@ -68,6 +72,7 @@ int main(int argc, char ** argv)
     while (rclcpp::ok()) {
       if (pkg->IsFrameReady()) {
         pkg->setStamp(node->now());
+        pkg->setFrameId(frame_id);
         lidar_pub->publish(pkg->GetLaserScan());
         pkg->ResetFrameReady();
       }
